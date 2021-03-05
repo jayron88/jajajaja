@@ -1,0 +1,29 @@
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from time import sleep
+
+driver = webdriver.Edge('C:\\Users\\Andra\\OneDrive\\Documentos\\msedgedriver.exe') # Endereço do driver
+
+driver.get('https://www.amazon.com/-/pt/ap/signin?openid.pape.max_auth_age=0&openid.return_to=https%3A%2F%2Fwww.amazon.com%2F%3Fref_%3Dnav_signin&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.assoc_handle=usflex&openid.mode=checkid_setup&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&')
+
+driver.find_element_by_xpath('//*[@id="ap_email"]').send_keys('') # email
+driver.find_element_by_xpath('//*[@id="continue"]').click()
+
+sleep(2)
+
+driver.find_element_by_xpath('//*[@id="ap_password"]').send_keys('') # senha
+driver.find_element_by_xpath('//*[@id="signInSubmit"]').click()
+
+sleep(2)
+
+driver.execute_script("window.open('');")
+driver.switch_to.window(driver.window_handles[1])
+driver.get('https://www.amazon.com/dp/B08M13DXSZ?smid=ATVPDKIKX0DER&tag=data20-20#aod') # link do produto
+
+while True:
+    try:
+        driver.find_element_by_xpath('//*[@id="buy-now-button"]').click()
+        driver.find_element_by_xpath('//*[@id="placeYourOrder"]/span/input').click()
+        break
+    except NoSuchElementException:
+            driver.refresh()
